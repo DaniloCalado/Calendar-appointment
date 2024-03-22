@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Calendario from './components/calendar';
+import Formulario from './components/form';
 
 function App() {
+  const [eventos, setEventos] = useState([]);
+
+  const handleSlotSelect = (slotInfo) => {
+    const { start, end } = slotInfo;
+    const novoEvento = {
+      title: 'Novo Evento',
+      start,
+      end,
+    };
+    setEventos([...eventos, novoEvento]);
+    toast.success('Evento agendado com sucesso!');
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container mx-auto py-8">
+      <h3 className="text-2xl font-bold mb-12">Bem vindo ao sistema de agendamento do coworking da Softex/Porto Digital</h3>
+      <Calendario eventos={eventos} onSlotSelect={handleSlotSelect} />
+      <Formulario />
     </div>
   );
 }
